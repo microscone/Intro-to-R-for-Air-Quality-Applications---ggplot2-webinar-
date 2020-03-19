@@ -1,0 +1,95 @@
+---
+title: "GGPLOT2 Webinar"
+author: "Shane Cone"
+date: "3/13/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+dat <- read_csv("C2.1.1CONUSv16.0_2020_p_unit_level_activity_enhanced_v2-tg.csv")
+dat_ozone <- read_csv("MLK 2017 AQS data Tidy.csv")
+
+View(dat)
+str(dat)
+length(dat)
+
+dat_long <- dat %>% 
+  select(1:37) %>% 
+pivot_longer(7:37, names_to = "Metric", values_to = "Values")
+
+View(dat_long)
+
+dat_long %>% 
+  filter(State == "DE", Metric == "Maximum hourly heat input (mmbtu)") %>% 
+  group_by(Facility) %>% 
+  summarize("Sum of Heat Output" = sum(Values))
+
+dat_long %>% 
+  filter(Metric == "Maximum hourly heat input (mmbtu)") %>% 
+ggplot(aes(x = State, y = Values)) +
+  geom_col()
+
+
+```
+
+
+# Grammar of Graphics
+
+Who here has been frustrated with making charts or graphs in Excel??
+Simple charts, with small data, are quick and easy in Excel. But you quickly bump into the limits of what it can do for you. 
+
+In contrast, the possibilities are quite literally endless in R! 
+
+We will be discussing how to build visualizations in R using ggplot2. Ggplot2 builds charts using the grammar of graphics approach. 
+
+The grammar of graphics provides a layered approach to building a chart. 
+
+There are three main, necessary arguments to supply to gglpot in order to chart something. 
+
+## Requireid layer 1 - Data
+
+```{r} 
+#Starting with the AQS data
+ggplot(dat_ozone)
+```
+
+The first necessary item is the dataset you want to chart. In this instance, we will be starting with the AQS data that we used in the the open-air webinar.
+
+Here, we passed the dataset("dat_ozone") as the first argument to ggplot. Also, remember, since the data is the first argument, we can also pipe the dataset into ggplot
+
+```{r}
+dat_ozone %>% 
+  ggplot()
+```
+
+This provides the first requirement, but of course, doesn't actually build a chart yet. It's sort of like having data in a table in Excel - it's necessary, but insufficient!
+
+
+## Required Layer 2 - Aesthetics
+
+Next, you will define some aesthetic mappings to ggplot. 
+
+
+```{r}
+
+ggplot(dat_ozone, aes(x = DateTime, y = o3))
+```
+
+
+This looks like an empy plot, too, but what have we actually accomplished here?
+
+In ggplot2 in R, you build a data visualization piece by piece.The first call just supplies the dataset, but provides no mapping. That is why you get an empty/gray square. However, once we have supplied "aes()", we have mapped our x and y variables. This then also provides the **scale** to ggplot, which is why our x and y axes have both a label, **and** a range! 
+
+(this is a fine detail, but actually important. With one mapping - the call to aes() - we have provided multiple required layers!)
+
+However, we don't have any data actually plotted yet! That is because we have not procided a "geom", or a geometric object to map onto the chart. 
+
+## Required Layer 3 - Geometries!
+
+
+
+
+
+
+
