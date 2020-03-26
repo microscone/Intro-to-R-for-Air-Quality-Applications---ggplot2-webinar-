@@ -1,20 +1,12 @@
 ---
-title: "ggplot2 Webinar Slides"
-author: "Shane Cone"
-date: "3/23/2020"
+title: "MARAMA Introduction to R Webinar Training Series: ggplot2"
+date: "April 2020"
+author: "Shane Cone, DE DAQ and Jenny St. Clair, MARAMA"
 output:
   slidy_presentation:
     theme: flatly
 ---
 
-# Introduction to R for air quality applications - Data Visualization and ggplot2!
-
-We will be introducing the incredibly powerful and popular ggplot2 package
-
-To wet everyones appetites, let's take a look at just what is possible with the ggplot package in R.
-All of these visualizations were made in R, and their code is available online. 
-
----
 ```{r, include = FALSE}
 #dependencies
 library(png)
@@ -22,6 +14,64 @@ library(tidyverse)
 library(knitr)
 library(lubridate)
 ```
+
+# Introduction to R for air quality applications - Data Visualization and ggplot2!
+
+We will be introducing the incredibly powerful and popular ggplot2 package
+
+To whet everyones appetites, let's take a look at just what is possible with the ggplot package in R.
+All of these visualizations were made in R, and their code is available online. 
+
+```{r,out.width = "30%", echo=FALSE}
+include_graphics("marama_logo.png")
+```
+
+---
+
+## Q & A
+
+- Please submit questions in the question box.
+- We will answer as many questions as possible during this webinar. If we can't get to your question, we will respond via email. 
+
+```{r,out.width = "30%", echo=FALSE}
+# placeholder - need to get attendee image
+include_graphics("gotoweb_qbox.png")
+```
+
+---
+
+## Today we'll discuss...
+
+- what you can create with ggplot2,
+- how to decide what kind of plot to make based on your data & research question,
+- the components of a "Grammar of Graphics,"
+- how the Grammar of Graphics philosophy can enable you to build custom, elegant plots,
+- and where you can learn more.
+
+---
+
+## Purpose/Objectives
+
+- Explore how NOx, O3, and SO2 have changed over a few months at Delaware monitoring sites
+- Explore how patterns of change for each pollutant different?
+
+---
+
+## Data
+
+We'll use 2017 monitoring data for three pollutants measured at the MLK AQS site in Delaware.
+
+---
+
+## What kind of plot should we make?
+
+https://www.data-to-viz.com/ 
+
+```{r,out.width = "90%", echo=FALSE}
+include_graphics("DataToViz_snip.png")
+```
+
+---
 
 ```{r,out.width = "70%", echo=FALSE}
 include_graphics("images/ggplot_masterlist_Diverging_bars.png")
