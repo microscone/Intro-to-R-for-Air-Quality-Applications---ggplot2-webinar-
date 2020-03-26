@@ -545,14 +545,6 @@ Calendar_plot <- dat_ozone_long %>%
 
 Calendar_plot
 ```
-There are other packages that may help to make more custom annotations. One example - What if I wanted to add "DRAFT" over the graphic?
-
-```{r, fig.height=8}
-library(cowplot)
-
-ggdraw(Calendar_plot) + 
-  draw_label("Draft", color = "#C0A0A0", size = 200, angle = 45)
-```
 
 
 # Coordinate system
@@ -664,6 +656,14 @@ dat_ozone %>%
 
 ```
 
+There are other packages that may help to make more custom annotations. One example - What if I wanted to add "DRAFT" over the graphic?
+
+```{r, fig.height=8}
+library(cowplot)
+
+ggdraw(Calendar_plot) + 
+  draw_label("Draft", color = "#C0A0A0", size = 200, angle = 45)
+```
 
 
 
