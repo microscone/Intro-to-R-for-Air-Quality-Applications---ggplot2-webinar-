@@ -532,7 +532,7 @@ dat_ozone_long %>%
 Let's do another example of a faceted chart. This time, we used mutate to create some new variables, then faceted on those variables (month and day of month).
 
 ```{r, fig.height=8}
-dat_ozone_long %>% 
+Calendar_plot <- dat_ozone_long %>% 
   mutate("Month" = month(DateTime, label = T),
          "Day of Month" = mday(DateTime)) %>% #these two lines create a "month" to facet on, and a "day of month" for the x axis
   filter(Measure == "o3") %>% # I just want to plot Ozone
@@ -543,8 +543,16 @@ dat_ozone_long %>%
   labs(title = "Monthly Ozone values in 2017",
        y = "Ozone ppb")
 
+Calendar_plot
 ```
+There are other packages that may help to make more custom annotations. One example - What if I wanted to add "DRAFT" over the graphic?
 
+```{r, fig.height=8}
+library(cowplot)
+
+ggdraw(Calendar_plot) + 
+  draw_label("Draft", color = "#C0A0A0", size = 200, angle = 45)
+```
 
 
 # Coordinate system
