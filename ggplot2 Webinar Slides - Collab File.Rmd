@@ -242,7 +242,7 @@ include_graphics("images/github_cutterkom_generative_art1.png")
 #data prep for the rest of the presentation.
 dat <- read_csv("C2.1.1CONUSv16.0_2020_p_unit_level_activity_enhanced_v2-tg.csv") #using read_csv, from readr package, to read files
 dat_ozone <- read_csv("MLK 2017 AQS data Tidy.csv")
-NEI_totals_long <- read_csv("NEI_totals_long.csv")
+NEI_totals_long <- read_csv("NEI_totals_long.csv") #totals for final charts
 
 dat_ozone_long <- dat_ozone %>% 
   pivot_longer(-DateTime, names_to = "Measure", values_to = "Values") #using the pipe operator and pivot longer to tidy my data
