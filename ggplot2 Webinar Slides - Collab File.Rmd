@@ -405,11 +405,16 @@ ggplot() +
   geom_point(aes(x = DateTime, y = o3), na.rm = TRUE)
 ```
 
+---
+
 
 It looks exactly the same!
 What's happening here?
 
 When you call aes() in the ggplot() call, it will pass that aesthetic mapping to all geoms that you call later, unless you specifcy a different aes() in that geom. 
+
+---
+
 
 Some examples:
 
@@ -431,10 +436,18 @@ dat_ozone %>%
 ```
 
 
+---
+
+
+
 We see the two ways of calling aes() here, and both charts are exactly the same! 
 So why would you want to call aes() in the geom, instead of in the ggplot call?
 
 well, if you wanted to plot different things to different geoms!
+
+
+---
+
 
 
 ```{r, fig.width= 10, fig.height= 6}
@@ -456,11 +469,13 @@ dat_ozone %>%
 Forget, for a moment, that this is an ugly chart, and focus, rather on what we accomplished. We were able to map two different gemoetries onto the same chart! 
 
 
+
+
 ## Statistics
 
 There is another layet that we haven't talked about yet. The Statistic layer. This is often overlooked, as the geom you use tends to do this correctly behind the scenes. However, sometimes your chart won't work correctly, and it's because the statistical transformation that ggplot is trying to do can't be done the way you told it to.
 
-For example, a Bar chart. There is an udnerlying calculation happening - it counts the rows and plots THAT number. 
+For example, a Bar chart. The numbers the bar chart is plotting are not numbers reported in the dataset. There is an underlying calculation happening - it counts the rows and plots THAT number. 
 
 ```{r}
 dat_ozone_long %>% 
@@ -468,7 +483,12 @@ dat_ozone_long %>%
   ggplot(aes(x = Measure)) +
   geom_bar()
 ```
+
+
 For instance, what we have shown with this barchart is that there are ~3700 measurements for each "Measure" in our dataset. Also notice that we only fed the geom_bar an x aesthetic - that's because you can't map a y aesthetic. For instance:
+
+---
+
 
 ```{r}
 #same exacy code, but with a y aes mapped
@@ -478,6 +498,12 @@ For instance, what we have shown with this barchart is that there are ~3700 meas
 #   geom_bar()
 ```
 The error says, "Error: stat_count() can only have an x or y aesthetic." The stat that bar charts use is, "stat_count", and it can't use that y aes!
+
+
+
+---
+
+
 
 Another stat that is being done behind the scenes is in a histogram.
 
@@ -496,7 +522,7 @@ We won't dive more into statistics in charts in this webinar. However, You shoul
 
 
 
-## Facets
+# Facets
 
 Another layer that can be added to a ggplot visualization is a facet. 
 
@@ -515,6 +541,12 @@ What is this beautiful chart!?
 This is a three-panel faceted chart of our dat_ozone_long dataset. We have faceted on the Measure, or pollutant, variable. But why are O3 and SO2 at zero?
 It's because the three facets share the same Y axis. When you facet a chart, you are usually doing it to compare across facets. This means that you **should** share a Y axis. 
 
+
+
+---
+
+
+
 In this case, it doesn't make sense, because the pollutants have different concentrations. We can "free" the Y axis, so there is a seperate Y axis for each facet. BUT! We should make sure to draw the reader's attention to the Y - that way, no one can accuse us of deceptive chart practices!
 
 ```{r, fig.width=10}
@@ -528,6 +560,12 @@ dat_ozone_long %>%
   labs(title = "Daily pollution concentrations in 2017",
        subtitle = "Each chart has seperate y-axis of concentration")
 ```
+
+
+
+---
+
+
 
 Let's do another example of a faceted chart. This time, we used mutate to create some new variables, then faceted on those variables (month and day of month).
 
@@ -547,6 +585,9 @@ Calendar_plot
 ```
 
 
+
+
+
 # Coordinate system
 
 The concept of a coordinate system may not be something you have thought about before. 
@@ -558,7 +599,13 @@ Combine the two position aesthetics to produce a 2d position on the plot. The po
 
 In coordination with the faceter, coordinate systems draw axes and panel backgrounds. While the scales control the values that appear on the axes, and how they map from data to position, it is the coordinate system which actually draws them. This is because their appearance depends on the coordinate system: an angle axis looks quite different than an x axis.
 
+
+
+
 ---
+
+
+
 
 "There are two types of coordinate system. Linear coordinate systems preserve the shape of geoms:
 
@@ -568,7 +615,13 @@ In coordination with the faceter, coordinate systems draw axes and panel backgro
 
 * coord_fixed(): Cartesian coordinate system with a fixed aspect ratio.
 
+
+
+
 ---
+
+
+
 
 I use the coord_flip a lot, to make charts like this:
 
@@ -576,12 +629,15 @@ I use the coord_flip a lot, to make charts like this:
 include_graphics("images/ggplot_masterlist_Diverging_bars.png")
 ```
 
+
+
+---
+
+
+
 It's really helpful to flip your bar chart if you have long titles for your factors. 
 And the code for this plot:
-```{r,include=F}
-library(ggplot2)
-theme_set(theme_bw())  
-
+```{r, fig.width=8}
 # Data Prep
 data("mtcars")  # load data
 mtcars$`car name` <- rownames(mtcars)  # create new column for car names
@@ -591,6 +647,7 @@ mtcars <- mtcars[order(mtcars$mpg_z), ]  # sort
 mtcars$`car name` <- factor(mtcars$`car name`, levels = mtcars$`car name`)  # convert to factor to retain sorted order in plot.
 
 # Diverging Barcharts
+
 ggplot(mtcars, aes(x=`car name`, y=mpg_z, label=mpg_z)) + 
   geom_bar(stat='identity', aes(fill=mpg_type), width=.5)  +
   scale_fill_manual(name="Mileage", 
@@ -600,6 +657,7 @@ ggplot(mtcars, aes(x=`car name`, y=mpg_z, label=mpg_z)) +
        title= "Diverging Bars") + 
   coord_flip() #try it without the coord_flip! It's awful...
 ```
+
 
 ---
 
@@ -613,6 +671,9 @@ ggplot(mtcars, aes(x=`car name`, y=mpg_z, label=mpg_z)) +
 * coord_polar(): Polar coordinates.
 
 * coord_trans(): Apply arbitrary transformations to x and y positions, after the data has been processed by the stat.
+
+
+
 
 ---
 
@@ -638,10 +699,11 @@ base + coord_polar("y")
 
 
 
+
 ## Let's talk about labels
 
 Chart labels, that is!
-You should always label your charts, to make them easy to udnerstand for your audience. ggplot has numerous ways to add labels, but the easiest is probably with the "lab" call
+You should always label your charts, to make them easy to udnerstand for your audience. ggplot has numerous ways to add labels, but the easiest is probably with the "labs" call
 
 ```{r, fig.width= 10, fig.height= 6}
 dat_ozone %>% 
@@ -656,6 +718,12 @@ dat_ozone %>%
 
 ```
 
+
+
+---
+
+
+
 There are other packages that may help to make more custom annotations. One example - What if I wanted to add "DRAFT" over the graphic?
 
 ```{r, fig.height=8}
@@ -664,6 +732,9 @@ library(cowplot)
 ggdraw(Calendar_plot) + 
   draw_label("Draft", color = "#C0A0A0", size = 200, angle = 45)
 ```
+
+
+
 
 
 
