@@ -11,8 +11,13 @@ output:
 
 We will be introducing the incredibly powerful and popular ggplot2 package
 
-To wet everyones appetites, let's take a look at just what is possible with the ggplot package in R.
+To wet everyone's appetites, let's take a look at just what is possible with the ggplot package in R.
 All of these visualizations were made in R, and their code is available online. 
+
+
+
+
+
 
 ---
 ```{r, include = FALSE}
@@ -22,6 +27,10 @@ library(tidyverse)
 library(knitr)
 library(lubridate)
 ```
+
+
+
+
 
 ```{r,out.width = "70%", echo=FALSE}
 include_graphics("images/ggplot_masterlist_Diverging_bars.png")
@@ -236,7 +245,9 @@ include_graphics("images/github_cutterkom_generative_art1.png")
 ```
 
 
+# Data Prep
 
+This code chunk read in our data, and prepares it for analysis -namely, makes it tidy. 
 
 ```{r, include = FALSE}
 #data prep for the rest of the presentation.
@@ -260,14 +271,35 @@ pivot_longer(7:37, names_to = "Metric", values_to = "Values")
 ```
 
 
+
+
+
+
+
 # Grammar of Graphics
 
 Who here has been frustrated with making charts or graphs in Excel??
+
 Simple charts, with small data, are quick and easy in Excel. But you quickly bump into the limits of what it can do for you. 
 
 In contrast, the possibilities are quite literally endless in R! 
 
+The grammar of graphics is a conception of graphing by Leland Wilkinson, published in 1999. It was highly conceptual.
+
+ggplot2 is an implementation of these concepts, developed by Hadley Wickham. There are some differences between Wilkinson and Wickham, but we won't be discussing things at that level of detail...
+
+
+
+
+
+
+
 ---
+
+
+
+
+
 
 ## Learning the grammar by doing 
 
@@ -275,20 +307,32 @@ In contrast, the possibilities are quite literally endless in R!
 
 - The grammar of graphics provides a layered approach to building a chart. 
 
-- There are three main, necessary arguments to supply to gglpot in order to chart something. 
+- We will start with the 3 obvious and common layers that are always required. There are actually 8 layers, but most of them have sensible defaults, and often don't need to be specified.  
+
+
+
+
+
+
 
 # Required layer 1 - Data
+
+
 
 ```{r} 
 #Starting with the AQS data
 ggplot(dat_ozone)
 ```
 
-The first necessary item is the dataset you want to chart. In this instance, we will be starting with the AQS data that we used in the the open-air webinar.
+The first necessary item is the **dataset** you want to chart. In this instance, we will be starting with the AQS data that we used in the open-air webinar.
 
 Here, we passed the dataset("dat_ozone") as the first argument to ggplot.
 
+
+
 ---
+
+
 
 Also, remember, since the data is the first argument, we can also pipe the dataset into ggplot
 
@@ -300,7 +344,10 @@ dat_ozone %>%
 This provides the first requirement, but of course, doesn't actually build a chart yet. It's sort of like having data in a table in Excel - it's necessary, but insufficient!
 
 
+
+
 # Required Layer 2 - Aesthetics
+
 
 Next, you will define some aesthetic mappings to ggplot. 
 
@@ -311,13 +358,28 @@ ggplot(dat_ozone, aes(x = DateTime, y = o3))
 
 This looks like an empy plot, too, but what have we actually accomplished here?
 
+
+
+
 ---
+
+
+
+
+
 
 In ggplot2 in R, you build a data visualization piece by piece.The first call just supplies the dataset, but provides no mapping. That is why you get an empty/gray square. However, once we have supplied "aes()", we have mapped our x and y variables. This then also provides the **scale** to ggplot, which is why our x and y axes have both a label, **and** a range! 
 
 (this is a fine detail, but actually important. With one mapping - the call to aes() - we have provided multiple required layers!)
 
 However, we don't have any data actually plotted yet! That is because we have not procided a "geom", or a geometric object to map onto the chart. 
+
+
+
+
+
+
+
 
 # Required Layer 3 - Geometries!
 
@@ -326,8 +388,8 @@ The part of a chart that everyone is familir with is the geometry, or the "geom"
 We'll start with a scatterplot, whose associated geometry, or geom, is "geom_point"
 
 ```{r}
-ggplot(dat_ozone, aes(x = DateTime, y = o3)) +
-  geom_point()
+ggplot(dat_ozone, aes(x = DateTime, y = o3)) + #Add layers and components to gpglots with '+'
+  geom_point() #our geom for this plot
 
 ```
 
@@ -337,16 +399,31 @@ Let's talk through this output. First to note - we recieved a warning symbol - t
 
 The sort of "catch-all" way to remove NA values from your commands is, "na.rm = TRUE". So, if we pass that to the geom call, we will get the same result, but without the warning.
 
+
+
 ```{r}
 ggplot(dat_ozone, aes(x = DateTime, y = o3)) +
   geom_point(na.rm = TRUE)
 ```
 
+
+
+
 ---
 
-So, we have a scatterplot geom that has been mapped onto the exact chart space we had before we called a geomgetry. Remember, our aes() call supplied the scale, and the geom just maps the geometric object onto the datapoints. But, this scatterplot isn't so great. The first issue is that each day has 24 points, and we're mapping an entire year. That's just too much data to make sense of in this way.
+
+
+
+So, we have a scatterplot geom that has been mapped onto the exact chart space we had before we called a geomgetry. Remember, our aes() call supplied the scale, and the geom just maps the data onto the geometric object we specified. But, this scatterplot isn't so great. The first issue is that each day has 24 points, and we're mapping an entire year. That's just too much data to make sense of in this way.
+
+
+
 
 Let's take a look at how we might subset this data, and just look at the summer ozone season.
+
+
+We will be using more of the skills we learned in the "working with data" webinar! We will pipe the dataset to the filter "verb", and select only the DateTimes after May 1 AND before Oct 1. 
+
 
 ```{r, fig.width= 10, fig.height= 6}
 dat_ozone %>% 
@@ -357,7 +434,10 @@ dat_ozone %>%
 ```
 
 
-We are using more of the skills we learned in the "working with data" webinar! We piped the dataset to the filter "verb", and selected only the DateTimes after May 1 AND before Oct 1. 
+
+
+
+
 
 # types/ options of geometries
 There are many geometries - because there are many types of charts! A short list is here:
@@ -373,6 +453,12 @@ There are many geometries - because there are many types of charts! A short list
 For more, I recommend looking at the gpglot2 cheat sheet, in the resources section, or the ggplot2 website.
 
 
+
+
+
+
+
+
 # Adding multiple geoms!
 
 ```{r, fig.width= 10, fig.height= 6}
@@ -386,6 +472,10 @@ dat_ozone %>%
 
 While a linear model line plotted on this dataset isn't actually that informative, it shows that you can build more complex R charts by adding geoms to your plot! In this case, there are two geoms - point and smooth.
 
+
+
+
+
 ## More on Aesthetics
 
 I wanted to talk a little more about this "aesthetic" mapping, and how to do in in ggplot.
@@ -397,9 +487,11 @@ ggplot(dat_ozone, aes(x = DateTime, y = o3)) +
   geom_point()
 ```
 
+
+
 However, looks what happens when we move the aes() call to the geom, like this:
 
-```{r, include = TRUE}
+```{r}
 dat_ozone %>% 
 ggplot() +
   geom_point(aes(x = DateTime, y = o3), na.rm = TRUE)
@@ -411,7 +503,7 @@ ggplot() +
 It looks exactly the same!
 What's happening here?
 
-When you call aes() in the ggplot() call, it will pass that aesthetic mapping to all geoms that you call later, unless you specifcy a different aes() in that geom. 
+When you call aes() in the ggplot() call, it will pass that aesthetic mapping to all geoms that you call later, unless you specify a different aes() in that geom. 
 
 ---
 
@@ -437,8 +529,6 @@ dat_ozone %>%
 
 
 ---
-
-
 
 We see the two ways of calling aes() here, and both charts are exactly the same! 
 So why would you want to call aes() in the geom, instead of in the ggplot call?
@@ -471,6 +561,8 @@ Forget, for a moment, that this is an ugly chart, and focus, rather on what we a
 
 
 
+
+
 ## Statistics
 
 There is another layet that we haven't talked about yet. The Statistic layer. This is often overlooked, as the geom you use tends to do this correctly behind the scenes. However, sometimes your chart won't work correctly, and it's because the statistical transformation that ggplot is trying to do can't be done the way you told it to.
@@ -490,10 +582,13 @@ For instance, what we have shown with this barchart is that there are ~3700 meas
 ---
 
 
+
+
+
 ```{r}
-#same exacy code, but with a y aes mapped
-# dat_ozone_long %>% 
-#   filter(DateTime >= as.Date('2017-05-01') & DateTime <= as.Date('2017-10-01')) %>% 
+# same exact code, but with a y aes mapped
+# dat_ozone_long %>%
+#   filter(DateTime >= as.Date('2017-05-01') & DateTime <= as.Date('2017-10-01')) %>%
 #   ggplot(aes(x = Measure, y = Values)) +
 #   geom_bar()
 ```
@@ -501,7 +596,13 @@ The error says, "Error: stat_count() can only have an x or y aesthetic." The sta
 
 
 
+
+
+
 ---
+
+
+
 
 
 
@@ -522,9 +623,12 @@ We won't dive more into statistics in charts in this webinar. However, You shoul
 
 
 
+
+
 # Facets
 
 Another layer that can be added to a ggplot visualization is a facet. 
+
 
 
 ```{r, fig.width=10}
@@ -569,7 +673,7 @@ dat_ozone_long %>%
 
 Let's do another example of a faceted chart. This time, we used mutate to create some new variables, then faceted on those variables (month and day of month).
 
-```{r, fig.height=8}
+```{r, fig.height=9}
 Calendar_plot <- dat_ozone_long %>% 
   mutate("Month" = month(DateTime, label = T),
          "Day of Month" = mday(DateTime)) %>% #these two lines create a "month" to facet on, and a "day of month" for the x axis
@@ -588,6 +692,7 @@ Calendar_plot
 
 
 
+
 # Coordinate system
 
 The concept of a coordinate system may not be something you have thought about before. 
@@ -598,6 +703,7 @@ Taken from, "ggplot2: Elegant Graphics for Data Analysis" by Hadley Wickham,
 Combine the two position aesthetics to produce a 2d position on the plot. The position aesthetics are called x and y, but they might be better called position 1 and 2 because their meaning depends on the coordinate system used. For example, with the polar coordinate system they become angle and radius (or radius and angle), and with maps they become latitude and longitude.
 
 In coordination with the faceter, coordinate systems draw axes and panel backgrounds. While the scales control the values that appear on the axes, and how they map from data to position, it is the coordinate system which actually draws them. This is because their appearance depends on the coordinate system: an angle axis looks quite different than an x axis.
+
 
 
 
@@ -618,7 +724,9 @@ In coordination with the faceter, coordinate systems draw axes and panel backgro
 
 
 
+
 ---
+
 
 
 
@@ -735,6 +843,26 @@ ggdraw(Calendar_plot) +
 
 
 
+# Wrap-up
+
+Now, you have been introduced into the world of Grammar of Graphics. It may seem daunting, but that's only because it forces you to think a little but more about your charts. Which, in the end, is a good thing! Excel makes charting "easy"... until it isn't. Then making changes to charts in Excel is impossible.
+
+R completely frees you up, to do almost anything with (or to) your charts! 
+
+---
+
+The only thing left to do is practice! You can practice with the datasets in this presentation, or better yet, use some data that matters to you. 
+
+Charting is sometimes thought of as a "last step" of data analysis. However, for me, it's actually one of the first things that I do. If I have a new dataset, and I want to get to know it, there is no more efficient way than to start charting it!
+
+
+
+
+
+
+
+
+
 
 
 
@@ -750,9 +878,9 @@ Pollutants <- (NEI_totals_long %>%
 Pollutants <- Pollutants[[1]]
 
 
-plot_pols = function(df, pol){
-    for(pol in Pollutants){
-        p = ggplot(NEI_totals_long %>% 
+plot_pols = function(df, pol){ #this is the function, with 2 inputs
+    for(pol in Pollutants){ #this is the for loop, to loop over a list of pollutants
+        p = ggplot(NEI_totals_long %>%  #this is the ggplot call I want to perform for each "pol"
                     filter(.data$Pollutant == pol)) +
             geom_line(aes(x = factor(Year), y = `Tons per Year`, color = Sector, group = Sector), size = 1.2) +
             geom_point(aes(x = factor(Year), y = `Tons per Year`, color = Sector), size = 2) +
