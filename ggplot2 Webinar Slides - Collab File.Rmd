@@ -20,9 +20,6 @@ library(lubridate)
 We will be introducing the incredibly powerful and popular ggplot2 package
 
 
-To whet everyones appetites, let's take a look at just what is possible with the ggplot package in R.
-All of these visualizations were made in R, and their code is available online. 
-
 ```{r,out.width = "30%", echo=FALSE}
 include_graphics("marama_logo.png")
 ```
@@ -78,7 +75,10 @@ include_graphics("DataToViz_snip.png")
 
 
 
+# Examples of Charts in made in R
 
+To whet everyones appetites, let's take a look at just what is possible with the ggplot package in R.
+All of these visualizations were made in R, and their code is available online. 
 
 
 ```{r,out.width = "70%", echo=FALSE}
@@ -109,6 +109,9 @@ include_graphics("images/ggplot_masterlist_dumbbell.png")
 
 Here are some examples of charts that I can't imagine making in Excel...
 (I'm not saying they're impossible, I'm saying I'd rather run a super marathon than even try)
+
+
+
 
 ---
 
@@ -215,7 +218,7 @@ include_graphics("images/ggplot_masterlist_violin_plot.png")
 
 
 
-```{r,out.width = "58%", echo=FALSE}
+```{r,out.width = "52%", echo=FALSE}
 include_graphics("images/rgraphgallery_histogram_scatter.png")
 ```
 
@@ -322,16 +325,33 @@ pivot_longer(7:37, names_to = "Metric", values_to = "Values")
 
 
 
-
-
-
-# Grammar of Graphics
+# Why Chart in R?
 
 Who here has been frustrated with making charts or graphs in Excel??
 
 Simple charts, with small data, are quick and easy in Excel. But you quickly bump into the limits of what it can do for you. 
 
 In contrast, the possibilities are quite literally endless in R! 
+
+A *few* of the advantages of charting in R
+
+- Reproduceability (make the exact same plot with several/many datasets, by only changing one line of code. No need to "manually" remake the chart)
+
+- Infinite Customizability - You can change quite literally every aspect of a chart. Excel only gives you a few basic options
+
+- Work with big data
+
+- publishable graphics - Excel is getting better with this, but it used to be many publications would not accept an Excel chart for publication
+
+
+
+
+
+
+
+
+# Grammar of Graphics
+
 
 The grammar of graphics is a conception of graphing by Leland Wilkinson, published in 1999. It was highly conceptual.
 
@@ -357,6 +377,7 @@ ggplot2 is an implementation of these concepts, developed by Hadley Wickham. The
 - The grammar of graphics provides a layered approach to building a chart. 
 
 - We will start with the 3 obvious and common layers that are always required. There are actually 8 layers, but most of them have sensible defaults, and often don't need to be specified.  
+
 
 
 
@@ -421,7 +442,7 @@ In ggplot2 in R, you build a data visualization piece by piece.The first call ju
 
 (this is a fine detail, but actually important. With one mapping - the call to aes() - we have provided multiple required layers!)
 
-However, we don't have any data actually plotted yet! That is because we have not procided a "geom", or a geometric object to map onto the chart. 
+However, we don't have any data actually plotted yet! That is because we have not provided a "geom", or a geometric object to map onto the chart. 
 
 
 
@@ -463,7 +484,7 @@ ggplot(dat_ozone, aes(x = DateTime, y = o3)) +
 
 
 
-So, we have a scatterplot geom that has been mapped onto the exact chart space we had before we called a geomgetry. Remember, our aes() call supplied the scale, and the geom just maps the data onto the geometric object we specified. But, this scatterplot isn't so great. The first issue is that each day has 24 points, and we're mapping an entire year. That's just too much data to make sense of in this way.
+So, we have a scatterplot geom that has been mapped onto the exact chart space we had before we called a geometry. Remember, our aes() call supplied the scale, and the geom just maps the data onto the geometric object we specified. But, this scatterplot isn't so great. The first issue is that each day has 24 points, and we're mapping an entire year. That's just too much data to make sense of in this way.
 
 
 
@@ -614,7 +635,7 @@ Forget, for a moment, that this is an ugly chart, and focus, rather on what we a
 
 ## Statistics
 
-There is another layet that we haven't talked about yet. The Statistic layer. This is often overlooked, as the geom you use tends to do this correctly behind the scenes. However, sometimes your chart won't work correctly, and it's because the statistical transformation that ggplot is trying to do can't be done the way you told it to.
+There is another layer that we haven't talked about yet. The Statistic layer. This is often overlooked, as the geom you use tends to do this correctly behind the scenes. However, sometimes your chart won't work correctly, and it's because the statistical transformation that ggplot is trying to do can't be done the way you told it to.
 
 For example, a Bar chart. The numbers the bar chart is plotting are not numbers reported in the dataset. There is an underlying calculation happening - it counts the rows and plots THAT number. 
 
@@ -626,7 +647,14 @@ dat_ozone_long %>%
 ```
 
 
-For instance, what we have shown with this barchart is that there are ~3700 measurements for each "Measure" in our dataset. Also notice that we only fed the geom_bar an x aesthetic - that's because you can't map a y aesthetic. For instance:
+For instance, what we have shown with this barchart is that there are ~3700 measurements for each "Measure" in our dataset. What geom_bar did was *count* the rows of each measure, and then plot that count. The default statistic for geom_bar is "count".
+
+Proof: 
+```{r}
+?geom_bar
+```
+
+Also notice that we only fed the geom_bar an x aesthetic - that's because you can't map a y aesthetic. For instance:
 
 ---
 
@@ -668,7 +696,9 @@ dat_ozone_long %>%
 ```
 In this example, we are weven given a a response from the system, saying, "`stat_bin()` using `bins = 30`. Pick better value with `binwidth`". This is because we didn't povide a binwidth for the histogram, so the stat used the default value of 30 bins. 
 
-We won't dive more into statistics in charts in this webinar. However, You should be aware that it is an important layer of the grammar of graphics, and you will become more familiar with them as you chart more. 
+We won't dive more into statistics in charts in this webinar. However, you should be aware that it is an important layer of the grammar of graphics, and you will become more familiar with them as you chart more. 
+
+
 
 
 
@@ -860,7 +890,7 @@ base + coord_polar("y")
 ## Let's talk about labels
 
 Chart labels, that is!
-You should always label your charts, to make them easy to udnerstand for your audience. ggplot has numerous ways to add labels, but the easiest is probably with the "labs" call
+You should always label your charts, to make them easy to understand for your audience. Ggplot has numerous ways to add labels, but the easiest is probably with the "labs" 
 
 ```{r, fig.width= 10, fig.height= 6}
 dat_ozone %>% 
@@ -870,7 +900,7 @@ dat_ozone %>%
   labs(title = "Hourly Ozone Concentrations",
        subtitle = "Time series chart for the summer of 2017",
         x = "Date",
-        y = "Ozone (ppb)")
+        y = "Ozone (ppm)")
 
 
 ```
