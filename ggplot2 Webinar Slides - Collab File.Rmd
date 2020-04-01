@@ -987,6 +987,12 @@ ggplotly(plotly_ex)
 
 
 
+---
+
+
+
+
+
 Something I wanted to show everyone. It was about 1.5 years into my R education when I really started using functions, so it isn't something I expect anyone to be able to do now. BUT! This function is a really cool way to loop over all your variables, and make plots for each variable. I use it in data exploration a lot. 
 
 ```{r, fig.width=9, fig.height=5}
