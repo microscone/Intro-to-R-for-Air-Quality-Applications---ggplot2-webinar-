@@ -966,6 +966,27 @@ https://rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf
 
 # Extras
 
+
+Ploty- make interactive plots with plotly (by just passing your ggplot to plotly!)
+
+```{r}
+#install.packages("plotly")
+library(plotly)
+plotly_ex <- dat_ozone %>% 
+  filter(DateTime >= as.Date('2017-05-01') & DateTime <= as.Date('2017-10-01')) %>% 
+  ggplot(aes(x = DateTime, y = o3)) +
+  geom_point(na.rm = TRUE) +
+  labs(title = "Hourly Ozone Concentrations",
+       subtitle = "Time series chart for the summer of 2017",
+        x = "Date",
+        y = "Ozone (ppm)")
+
+ggplotly(plotly_ex)
+
+```
+
+
+
 Something I wanted to show everyone. It was about 1.5 years into my R education when I really started using functions, so it isn't something I expect anyone to be able to do now. BUT! This function is a really cool way to loop over all your variables, and make plots for each variable. I use it in data exploration a lot. 
 
 ```{r, fig.width=9, fig.height=5}
