@@ -7,14 +7,6 @@ output:
     theme: flatly
 ---
 
-```{r, include = FALSE}
-#dependencies
-library(png)
-library(tidyverse)
-library(knitr)
-library(lubridate)
-```
-
 # Introduction to R for air quality applications - Data Visualization and ggplot2!
 
 We will be introducing the incredibly powerful and popular ggplot2 package
@@ -152,13 +144,20 @@ include_graphics("images/ggplot_masterlist_slope_chart_2.png")
 
 
 
+
+
+
 # Time Series
 
 Display and analysis of time series data can be a breeze in R. Here are some visualization examples. 
 
 
 
+
+
 ---
+
+
 
 
 
@@ -178,13 +177,23 @@ include_graphics("images/ggplot_masterlist_time_series_2.png")
 
 
 
+
+
+
+
 # Frequencies and Histograms
 
 Statistics is the math of data, and R is the programing language of statistics. Here are some awesome frequency charts and histograms that are a breeze to construct in R.
 
 
 
+
+
+
 ---
+
+
+
 
 
 
@@ -237,13 +246,22 @@ include_graphics("images/ggplot_masterlist_density_plot.png")
 
 
 
+
+
+
 # You can even go spatial!
 
 A lot of spatial analysis is done in R nowadays. It may not have all of the functionality of a GIS software, but spatial data is just a special case of data, and there are many advantages of using a statistical programming for analyzing this type of data.
 
 
 
+
+
+
 ---
+
+
+
 
 
 
@@ -299,9 +317,16 @@ include_graphics("images/github_cutterkom_generative_art1.png")
 
 # Data Prep
 
-This code chunk read in our data, and prepares it for analysis -namely, makes it tidy. 
+This code chunk includes our dependencies, and reads in our data and prepares it for analysis -namely, makes it tidy. 
+
 
 ```{r, include = FALSE}
+#dependencies
+library(png)
+library(tidyverse)
+library(knitr)
+library(lubridate)
+
 #data prep for the rest of the presentation.
 dat <- read_csv("C2.1.1CONUSv16.0_2020_p_unit_level_activity_enhanced_v2-tg.csv") #using read_csv, from readr package, to read files
 dat_ozone <- read_csv("MLK 2017 AQS data Tidy.csv")
@@ -312,9 +337,24 @@ dat_ozone_long <- dat_ozone %>%
 
 dat_ozone_long_daily_summer <- dat_ozone_long %>%
   filter(Measure == "o3", DateTime >= as.Date('2017-05-01') & DateTime <= as.Date('2017-10-01')) %>%  #more tidyverse verbs to prep data
+  mutate(rolling_mean = zoo::rollmean(Values,
+                                k = 8,
+                                fill = NA,
+                                align = "center")) %>% 
   group_by(Date = date(DateTime)) %>%
-  summarize("Daily Avg" = mean(Values))
+  summarise(max_day = max(rolling_mean, na.rm = TRUE)) %>% 
+  ungroup()
 
+dat_ozone_long_daily_annual <- dat_ozone_long %>%
+  filter(Measure == "o3") %>%  #more tidyverse verbs to prep data
+  mutate(rolling_mean = zoo::rollmean(Values,
+                                k = 8,
+                                fill = NA,
+                                align = "center")) %>% 
+  group_by(Date = date(DateTime)) %>%
+  summarise(max_day = max(rolling_mean, na.rm = TRUE)) %>% 
+  ungroup()
+  
 dat_long <- dat %>% 
   select(1:37) %>% 
 pivot_longer(7:37, names_to = "Metric", values_to = "Values")
@@ -335,7 +375,9 @@ In contrast, the possibilities are quite literally endless in R!
 
 A *few* of the advantages of charting in R
 
-- Reproduceability (make the exact same plot with several/many datasets, by only changing one line of code. No need to "manually" remake the chart)
+- Reproduceability (make the exact same plot with several/many datasets, by only changing one line of code. No need to "manually" remake the chart) (not joking, steal this code)
+
+- Transparency - Anyone else can read it for themself
 
 - Infinite Customizability - You can change quite literally every aspect of a chart. Excel only gives you a few basic options
 
@@ -350,12 +392,19 @@ A *few* of the advantages of charting in R
 
 
 
+
+
+
+
 # Grammar of Graphics
 
 
 The grammar of graphics is a conception of graphing by Leland Wilkinson, published in 1999. It was highly conceptual.
 
 ggplot2 is an implementation of these concepts, developed by Hadley Wickham. There are some differences between Wilkinson and Wickham, but we won't be discussing things at that level of detail...
+
+
+
 
 
 
@@ -385,6 +434,12 @@ ggplot2 is an implementation of these concepts, developed by Hadley Wickham. The
 
 
 
+
+
+
+
+
+
 # Required layer 1 - Data
 
 
@@ -400,7 +455,13 @@ Here, we passed the dataset("dat_ozone") as the first argument to ggplot.
 
 
 
+
+
+
 ---
+
+
+
 
 
 
@@ -412,6 +473,18 @@ dat_ozone %>%
 ```
 
 This provides the first requirement, but of course, doesn't actually build a chart yet. It's sort of like having data in a table in Excel - it's necessary, but insufficient!
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -431,7 +504,13 @@ This looks like an empy plot, too, but what have we actually accomplished here?
 
 
 
+
+
+
 ---
+
+
+
 
 
 
@@ -511,13 +590,14 @@ dat_ozone %>%
 
 # types/ options of geometries
 There are many geometries - because there are many types of charts! A short list is here:
-- geom_point
-- geom_bar
-- geom_col
-- geom_line
-- geom_area
-- geom_histogram
-- geom_boxplot
+
+* geom_point
+* geom_bar
+* geom_col
+* geom_line
+* geom_area
+* geom_histogram
+* geom_boxplot
 
 
 For more, I recommend looking at the gpglot2 cheat sheet, in the resources section, or the ggplot2 website.
@@ -531,7 +611,7 @@ For more, I recommend looking at the gpglot2 cheat sheet, in the resources secti
 
 # Adding multiple geoms!
 
-```{r, fig.width= 10, fig.height= 6}
+```{r, warning = FALSE, fig.width= 10, fig.height= 6}
 dat_ozone %>% 
   filter(DateTime >= as.Date('2017-05-01') & DateTime <= as.Date('2017-10-01')) %>% 
   ggplot(aes(x = DateTime, y = o3)) +
@@ -546,18 +626,19 @@ While a linear model line plotted on this dataset isn't actually that informativ
 
 
 
-## More on Aesthetics
+# More on Aesthetics
 
 I wanted to talk a little more about this "aesthetic" mapping, and how to do in in ggplot.
 
 In all the above code, we defined the aes() call in the intial ggplot call. Like this:
 
-```{r, include = TRUE}
+```{r, include = TRUE, warning=FALSE}
 ggplot(dat_ozone, aes(x = DateTime, y = o3)) +
-  geom_point()
+  geom_point(na.rm = T)
 ```
 
 
+---
 
 However, looks what happens when we move the aes() call to the geom, like this:
 
@@ -580,7 +661,7 @@ When you call aes() in the ggplot() call, it will pass that aesthetic mapping to
 
 Some examples:
 
-```{r}
+```{r, warning=FALSE}
 dat_ozone %>% 
   filter(DateTime >= as.Date('2017-05-01') & DateTime <= as.Date('2017-10-01')) %>% 
   ggplot(aes(x = DateTime, y = o3)) +
@@ -598,7 +679,14 @@ dat_ozone %>%
 ```
 
 
+
+
+
+
 ---
+
+
+
 
 We see the two ways of calling aes() here, and both charts are exactly the same! 
 So why would you want to call aes() in the geom, instead of in the ggplot call?
@@ -606,7 +694,13 @@ So why would you want to call aes() in the geom, instead of in the ggplot call?
 well, if you wanted to plot different things to different geoms!
 
 
+
+
+
 ---
+
+
+
 
 
 
@@ -615,13 +709,13 @@ dat_ozone %>%
   filter(DateTime >= as.Date('2017-05-01') & DateTime <= as.Date('2017-10-01')) %>% 
   ggplot(aes(x = DateTime, y = o3)) +
   geom_point(na.rm = TRUE) +
-  geom_col(data = dat_ozone_long_daily_summer, aes(x = as.POSIXct(Date), y = `Daily Avg`)) #we are using a different dataset and aes mapping for this geom
+  geom_line(data = dat_ozone_long_daily_summer, aes(x = as.POSIXct(Date), y = max_day), color = "red", size = 1.2) #we are using a different dataset and aes mapping for this geom
 
 dat_ozone %>% 
   filter(DateTime >= as.Date('2017-05-01') & DateTime <= as.Date('2017-10-01')) %>% 
   ggplot(aes(x = DateTime, y = o3)) +
   geom_point(na.rm = TRUE) +
-  geom_point(data = dat_ozone_long_daily_summer, aes(x = as.POSIXct(Date), y = `Daily Avg`), color = "red", size = 3, shape =17 )
+  geom_point(data = dat_ozone_long_daily_summer, aes(x = as.POSIXct(Date), y = max_day), color = "red", size = 3, shape =17)
 
 ```
 
@@ -633,11 +727,13 @@ Forget, for a moment, that this is an ugly chart, and focus, rather on what we a
 
 
 
-## Statistics
+# Statistics
 
 There is another layer that we haven't talked about yet. The Statistic layer. This is often overlooked, as the geom you use tends to do this correctly behind the scenes. However, sometimes your chart won't work correctly, and it's because the statistical transformation that ggplot is trying to do can't be done the way you told it to.
 
 For example, a Bar chart. The numbers the bar chart is plotting are not numbers reported in the dataset. There is an underlying calculation happening - it counts the rows and plots THAT number. 
+
+---
 
 ```{r}
 dat_ozone_long %>% 
@@ -655,6 +751,8 @@ Proof:
 ```
 
 Also notice that we only fed the geom_bar an x aesthetic - that's because you can't map a y aesthetic. For instance:
+
+
 
 ---
 
@@ -685,7 +783,7 @@ The error says, "Error: stat_count() can only have an x or y aesthetic." The sta
 
 Another stat that is being done behind the scenes is in a histogram.
 
-```{r}
+```{r, warning= FALSE}
 dat_ozone_long %>% 
   filter(DateTime >= as.Date('2017-05-01') & DateTime <= as.Date('2017-10-01'), Measure == "o3") %>% 
   ggplot(aes(x = Values)) +
@@ -710,7 +808,7 @@ Another layer that can be added to a ggplot visualization is a facet.
 
 
 
-```{r, fig.width=10}
+```{r, fig.width=10, warning= FALSE}
 dat_ozone_long %>% 
   filter(Measure == c("o3", "nox", "so2")) %>% 
   ggplot() +
@@ -726,13 +824,17 @@ It's because the three facets share the same Y axis. When you facet a chart, you
 
 
 
+
+
 ---
+
+
 
 
 
 In this case, it doesn't make sense, because the pollutants have different concentrations. We can "free" the Y axis, so there is a seperate Y axis for each facet. BUT! We should make sure to draw the reader's attention to the Y - that way, no one can accuse us of deceptive chart practices!
 
-```{r, fig.width=10}
+```{r, fig.width=10, warning= FALSE}
 dat_ozone_long %>% 
   filter(Measure == c("o3", "nox", "so2")) %>% 
   ggplot() +
@@ -746,25 +848,57 @@ dat_ozone_long %>%
 
 
 
+
+
 ---
+
+
 
 
 
 Let's do another example of a faceted chart. This time, we used mutate to create some new variables, then faceted on those variables (month and day of month).
 
-```{r, fig.height=9}
+```{r, fig.height=9, fig.width= 10, warning= FALSE}
 Calendar_plot <- dat_ozone_long %>% 
   mutate("Month" = month(DateTime, label = T),
          "Day of Month" = mday(DateTime)) %>% #these two lines create a "month" to facet on, and a "day of month" for the x axis
   filter(Measure == "o3") %>% # I just want to plot Ozone
   ggplot() +
-  geom_point(aes(x = `Day of Month`, y = Values), color = "Orange") +
+  geom_point(aes(x = `Day of Month`, y = Values), color = "orange") +
   facet_wrap(~ Month) +
   theme_bw() +
   labs(title = "Monthly Ozone values in 2017",
-       y = "Ozone ppb")
+       y = "Ozone ppm")
+
 
 Calendar_plot
+
+#add break points of AQI in point colors
+```
+
+
+
+
+---
+
+
+
+A second example. Instead of using hourly values, let's map the year in daily 8-hour max ozone values, and color code the values based on AQI.
+
+```{r, fig.height=6}
+Calendar_plot_2 <-  dat_ozone_long_daily_annual %>% 
+  mutate("Month" = month(Date, label = T),
+         "Day of Month" = mday(Date)) %>%  
+  ggplot() +
+  geom_point(aes(x = `Day of Month`, y = max_day, color = cut(max_day, c(-Inf, .054, .071, .086, .106)))) +
+  facet_wrap(~ Month) +
+  theme_bw() +
+  labs(title = "Daily 8-hour Max Ozone Values in 2017",
+       y = "Ozone ppm") +
+  scale_color_manual(name = "AQI",
+                     values = c("green", "yellow", "orange", "red"),
+                     labels = c("green", "yellow", "orange", "red"))
+Calendar_plot_2
 ```
 
 
@@ -779,9 +913,9 @@ Taken from, "ggplot2: Elegant Graphics for Data Analysis" by Hadley Wickham,
 
 "Coordinate systems have two main jobs:
 
-Combine the two position aesthetics to produce a 2d position on the plot. The position aesthetics are called x and y, but they might be better called position 1 and 2 because their meaning depends on the coordinate system used. For example, with the polar coordinate system they become angle and radius (or radius and angle), and with maps they become latitude and longitude.
+* Combine the two position aesthetics to produce a 2d position on the plot. The position aesthetics are called x and y, but they might be better called position 1 and 2 because their meaning depends on the coordinate system used. For example, with the polar coordinate system they become angle and radius (or radius and angle), and with maps they become latitude and longitude.
 
-In coordination with the faceter, coordinate systems draw axes and panel backgrounds. While the scales control the values that appear on the axes, and how they map from data to position, it is the coordinate system which actually draws them. This is because their appearance depends on the coordinate system: an angle axis looks quite different than an x axis.
+* In coordination with the faceter, coordinate systems draw axes and panel backgrounds. While the scales control the values that appear on the axes, and how they map from data to position, it is the coordinate system which actually draws them. This is because their appearance depends on the coordinate system: an angle axis looks quite different than an x axis.
 
 
 
@@ -887,9 +1021,13 @@ base + coord_polar("y")
 
 
 
-## Let's talk about labels
+
+
+# Let's talk about labels
+
 
 Chart labels, that is!
+
 You should always label your charts, to make them easy to understand for your audience. Ggplot has numerous ways to add labels, but the easiest is probably with the "labs" 
 
 ```{r, fig.width= 10, fig.height= 6}
@@ -901,9 +1039,11 @@ dat_ozone %>%
        subtitle = "Time series chart for the summer of 2017",
         x = "Date",
         y = "Ozone (ppm)")
-
-
 ```
+
+
+
+
 
 
 
@@ -927,12 +1067,14 @@ ggplot(df, aes(resp, trt)) +
 
 There are other packages that may help to make more custom annotations. One example - What if I wanted to add "DRAFT" over the graphic?
 
-```{r, fig.height=8}
+```{r, fig.height=8, warning = FALSE}
 library(cowplot)
 
 ggdraw(Calendar_plot) + 
-  draw_label("Draft", color = "#C0A0A0", size = 200, angle = 45)
+  draw_label("Draft", color = "#C0A0A0", size = 200, angle = 45, alpha = .5) #alpha is transparency
 ```
+
+
 
 
 
@@ -944,7 +1086,11 @@ Now, you have been introduced into the world of Grammar of Graphics. It may seem
 
 R completely frees you up, to do almost anything with (or to) your charts! 
 
+
+
 ---
+
+
 
 The only thing left to do is practice! You can practice with the datasets in this presentation, or better yet, use some data that matters to you. 
 
@@ -960,6 +1106,9 @@ Charting is sometimes thought of as a "last step" of data analysis. However, for
 
 Ggplot2 cheat sheet
 https://rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf
+
+
+
 
 
 
@@ -1021,3 +1170,39 @@ plot_pols(NEI_totals_long, Pollutants)
 
 ```
 
+
+
+
+
+
+# Notation for pollutants, scientific, etc. 
+
+In R, you ay want to include scientific notation for your pollutants - such as subscript or superscript symbols for chemical names. There are two examples below - I have added comments to the relevent lines.
+
+```{r}
+ggplot(NEI_totals_long %>% 
+                    filter(Pollutant == "NH3")) +
+            geom_line(aes(x = factor(Year), y = `Tons per Year`, color = Sector, group = Sector), size = 1.2) +
+            geom_point(aes(x = factor(Year), y = `Tons per Year`, color = Sector, shape = Sector), size = 3) +
+            scale_colour_brewer(palette = "Set1") +
+            labs(title = bquote(~NH[3]~"Annual Tons, by Sector"), x = "Year") + #use bquote and associated notation for subscript
+            scale_x_discrete(expand = expansion(mult = c(0.01, 0.05)))+
+            theme_bw() +
+            theme(panel.grid.major.x = element_blank(),
+            panel.grid.minor.x = element_blank()) +
+            scale_y_continuous(labels=scales::comma) #use comma from the scales package to add a thousans seperator comma
+
+ggplot(NEI_totals_long %>% 
+                    filter(Pollutant == "PM10-PRI")) +
+            geom_line(aes(x = factor(Year), y = `Tons per Year`, color = Sector, group = Sector), size = 1.2) +
+            geom_point(aes(x = factor(Year), y = `Tons per Year`, color = Sector, shape = Sector), size = 3) +
+            scale_colour_brewer(palette = "Set1") +
+            labs(title = bquote(~PM[10]~"Primary Annual Tons, by Sector"), x = "Year") + #use bquote and associated notation for subscript
+            scale_x_discrete(expand = expansion(mult = c(0.01, 0.05)))+
+            theme_bw()+
+            theme(panel.grid.major.x = element_blank(),
+            panel.grid.minor.x = element_blank()) +
+            scale_y_continuous(labels=scales::comma) #use comma from the scales package to add a thousans seperator comma
+```
+
+Further reading on bquote: https://trinkerrstuff.wordpress.com/2018/03/15/2246/
