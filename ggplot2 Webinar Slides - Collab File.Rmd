@@ -1207,3 +1207,25 @@ ggplot(NEI_totals_long %>%
 ```
 
 Further reading on bquote: https://trinkerrstuff.wordpress.com/2018/03/15/2246/
+
+
+
+
+
+
+
+
+
+# Resources:
+
+## Ggplot2 and Tidyverse
+https://ggplot2-book.org/index.html - Wichkam's ggplot2 book
+https://r4ds.had.co.nz/ - R for data science book - always a go-to resource
+https://github.com/tidyverse/ggplot2 - tidyverse github, with vignettes for ggplot2
+https://www.ggplot2-exts.org/gallery/ 
+http://www.rebeccabarter.com/blog/2017-11-17-ggplot2_tutorial/
+https://www.tidyverse.org/blog/2020/03/ggplot2-3-3-0/ - New updates to tidyverse and ggplot2
+
+## Principles of Design 
+We discussed the tools of design and charting here, but not the theory of design itself. It is always worth it to read more on this, if you do any visualization for the public.
+https://visme.co/blog/visual-hierarchy/ - visual heirarchy infographic
