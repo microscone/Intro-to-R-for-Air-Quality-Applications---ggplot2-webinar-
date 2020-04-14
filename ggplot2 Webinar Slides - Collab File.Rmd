@@ -76,12 +76,15 @@ All of these visualizations were made in R, and their code is available online.
 ```{r,out.width = "70%", echo=FALSE}
 knitr::include_graphics("images/ggplot_masterlist_Diverging_bars.png")
 ```
+Source: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
+
 
 ---
 
 ```{r,out.width = "70%", echo=FALSE}
 knitr::include_graphics("images/ggplot_masterlist_dot_plot.png")
 ```
+Source: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
 
 
 ---
@@ -89,6 +92,8 @@ knitr::include_graphics("images/ggplot_masterlist_dot_plot.png")
 ```{r,out.width = "50%", echo=FALSE}
 knitr::include_graphics("images/ggplot_masterlist_dumbbell.png")
 ```
+Source: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
+
 
 ---
 
@@ -110,6 +115,7 @@ Here are some examples of charts that I can't imagine making in Excel...
 ```{r,out.width = "70%", echo=FALSE}
 knitr::include_graphics("images/ggplot_masterlist_calendar_plot.png")
 ```
+Source: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
 
 
 
@@ -132,6 +138,7 @@ knitr::include_graphics("images/CAP emissions4.png")
 ```{r,out.width = "55%", echo=FALSE}
 knitr::include_graphics("images/ggplot_masterlist_heirarchical_dendrogram.png")
 ```
+Source: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
 
 
 
@@ -142,7 +149,7 @@ knitr::include_graphics("images/ggplot_masterlist_heirarchical_dendrogram.png")
 ```{r,out.width = "55%", echo=FALSE}
 knitr::include_graphics("images/datanovia_cluster_dendrogram.png")
 ```
-
+Source https://www.datanovia.com/en/blog/ggplot-examples-best-reference/
 
 
 ---
@@ -152,6 +159,7 @@ knitr::include_graphics("images/datanovia_cluster_dendrogram.png")
 ```{r,out.width = "55%", echo=FALSE}
 knitr::include_graphics("images/ggplot_masterlist_slope_chart_2.png")
 ```
+Source: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
 
 
 
@@ -175,6 +183,7 @@ Display and analysis of time series data can be a breeze in R. Here are some vis
 ```{r,out.width = "70%", echo=FALSE}
 knitr::include_graphics("images/ggplot_masterlist_time_series.png")
 ```
+Source: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
 
 
 
@@ -185,6 +194,7 @@ knitr::include_graphics("images/ggplot_masterlist_time_series.png")
 ```{r,out.width = "70%", echo=FALSE}
 knitr::include_graphics("images/ggplot_masterlist_time_series_2.png")
 ```
+Source: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
 
 
 
@@ -211,6 +221,7 @@ Statistics is the math of data, and R is the programing language of statistics. 
 ```{r,out.width = "70%", echo=FALSE}
 knitr::include_graphics("images/ggplot_masterlist_bocplot.png")
 ```
+Source: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
 
 
 
@@ -221,6 +232,7 @@ knitr::include_graphics("images/ggplot_masterlist_bocplot.png")
 ```{r,out.width = "70%", echo=FALSE}
 knitr::include_graphics("images/ggplot_masterlist_boxplot_with_fill.png")
 ```
+Source: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
 
 
 
@@ -231,6 +243,7 @@ knitr::include_graphics("images/ggplot_masterlist_boxplot_with_fill.png")
 ```{r,out.width = "70%", echo=FALSE}
 knitr::include_graphics("images/ggplot_masterlist_violin_plot.png")
 ```
+Source: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
 
 
 
@@ -241,6 +254,8 @@ knitr::include_graphics("images/ggplot_masterlist_violin_plot.png")
 ```{r,out.width = "52%", echo=FALSE}
 knitr::include_graphics("images/rgraphgallery_histogram_scatter.png")
 ```
+Source:https://www.r-graph-gallery.com/89-box-and-scatter-plot-with-ggplot2.html
+https://www.r-graph-gallery.com/ggplot2-package.html
 
 
 
@@ -251,6 +266,7 @@ knitr::include_graphics("images/rgraphgallery_histogram_scatter.png")
 ```{r,out.width = "70%", echo=FALSE}
 knitr::include_graphics("images/ggplot_masterlist_density_plot.png")
 ```
+Source: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
 
 
 
@@ -279,6 +295,7 @@ A lot of spatial analysis is done in R nowadays. It may not have all of the func
 ```{r,out.width = "50%", echo=FALSE}
 knitr::include_graphics("images/ggplot_masterlist_open_street.png")
 ```
+Source: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
 
 
 
@@ -289,6 +306,7 @@ knitr::include_graphics("images/ggplot_masterlist_open_street.png")
 ```{r, out.width = "75%", echo=FALSE}
 knitr::include_graphics("images/buzzfeed_spatial.png")
 ```
+Source https://buzzfeednews.github.io/2018-07-wildfire-trends/
 
 
 
@@ -304,6 +322,8 @@ knitr::include_graphics("images/buzzfeed_spatial.png")
 ```{r, out.width = "60%", echo=FALSE}
 knitr::include_graphics("images/rgraphgallery_bb8.png")
 ```
+Source: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
+
 
 
 
@@ -314,7 +334,7 @@ knitr::include_graphics("images/rgraphgallery_bb8.png")
 ```{r, out.width = "40%", echo=FALSE}
 knitr::include_graphics("images/github_cutterkom_generative_art2.png")
 ```
-
+Source: https://github.com/cutterkom/generativeart
 
 
 ---
@@ -324,6 +344,10 @@ knitr::include_graphics("images/github_cutterkom_generative_art2.png")
 ```{r, out.width = "60%", echo=FALSE}
 knitr::include_graphics("images/github_cutterkom_generative_art1.png")
 ```
+Source: https://github.com/cutterkom/generativeart
+
+
+
 
 
 # Data Prep
