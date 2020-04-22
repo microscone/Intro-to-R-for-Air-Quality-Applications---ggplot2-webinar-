@@ -759,7 +759,16 @@ dat_ozone %>%
 Forget, for a moment, that this is an ugly chart, and focus, rather on what we accomplished. We were able to map two different gemoetries onto the same chart! 
 
 
+# Another example of multiple geoms
 
+```{r}
+dat_ozone %>% 
+  filter(DateTime >= as.Date('2017-05-01') & DateTime <= as.Date('2017-10-01')) %>% 
+  ggplot(aes(x = DateTime, y = o3)) +
+  geom_point(na.rm = TRUE) +
+  geom_hline(yintercept = .070, linetype="dashed", color = "red") + #use geom_hline for horizontal lines
+  annotate("text", x = as_datetime("2017-05-15 00:00:00"), y = 0.068, label = ("2015 Ozone Standard"), color = "red") #use annotate to add text
+```
 
 
 
@@ -1228,7 +1237,7 @@ ggplot(NEI_totals_long %>%
             panel.grid.minor.x = element_blank()) +
             scale_y_continuous(labels=scales::comma) #use comma from the scales package to add a thousans seperator comma
 
-ggplot(NEI_totals_long %>% 
+gggplot_to_save <- ggplot(NEI_totals_long %>% 
                     filter(Pollutant == "PM10-PRI")) +
             geom_line(aes(x = factor(Year), y = `Tons per Year`, color = Sector, group = Sector), size = 1.2) +
             geom_point(aes(x = factor(Year), y = `Tons per Year`, color = Sector, shape = Sector), size = 3) +
@@ -1239,14 +1248,23 @@ ggplot(NEI_totals_long %>%
             theme(panel.grid.major.x = element_blank(),
             panel.grid.minor.x = element_blank()) +
             scale_y_continuous(labels=scales::comma) #use comma from the scales package to add a thousans seperator comma
+gggplot_to_save
 ```
 
 Further reading on bquote: https://trinkerrstuff.wordpress.com/2018/03/15/2246/
 
+# Saving Plots
 
+The standard save tool for ggplots is "ggsave()" - it will save the last image produces, and you only need to specify a file name.
 
-Things to consider : adding refernce line (ozone standard level) 
-How to save ggplots
+I prefer to use save_plot, from the cowplot package. It has better defaults, and you can specify your save object instead of the most recent object. But either one works. 
+```{r}
+gggplot_to_save
+ggsave("save_this_plot.png")
+
+cowplot::save_plot("cow_save_this_plot.png", plot = gggplot_to_save)
+```
+
 
 
 
