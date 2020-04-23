@@ -45,7 +45,7 @@ knitr::include_graphics("gotoweb_qbox.png")
 ## Purpose/Objectives
 
 - Explore how NOx, O3, and SO2 have changed over a few months at Delaware monitoring sites
-- Explore how patterns of change for each pollutant different?
+- Explore how patterns of change for each pollutant are different
 
 ---
 
