@@ -376,7 +376,7 @@ dat_ozone_long_daily_summer <- dat_ozone_long %>%
   mutate(rolling_mean = zoo::rollmean(Values,
                                 k = 8,
                                 fill = NA,
-                                align = "center")) %>% 
+                                align = "left")) %>% 
   group_by(Date = date(DateTime)) %>%
   summarise(max_day = max(rolling_mean, na.rm = TRUE)) %>% 
   ungroup()
@@ -386,7 +386,7 @@ dat_ozone_long_daily_annual <- dat_ozone_long %>%
   mutate(rolling_mean = zoo::rollmean(Values,
                                 k = 8,
                                 fill = NA,
-                                align = "center")) %>% 
+                                align = "left")) %>% 
   group_by(Date = date(DateTime)) %>%
   summarise(max_day = max(rolling_mean, na.rm = TRUE)) %>% 
   ungroup()
