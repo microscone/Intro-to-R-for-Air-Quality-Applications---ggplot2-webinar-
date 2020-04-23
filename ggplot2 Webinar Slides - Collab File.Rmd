@@ -411,9 +411,9 @@ In contrast, the possibilities are quite literally endless in R!
 
 A *few* of the advantages of charting in R
 
-- Reproduceability (make the exact same plot with several/many datasets, by only changing one line of code. No need to "manually" remake the chart) (not joking, steal this code)
+- Reproducibility  (make the exact same plot with several/many datasets, by only changing one line of code. No need to "manually" remake the chart) (not joking, steal this code)
 
-- Transparency - Anyone else can read it for themself
+- Transparency - Anyone else can read it for themselves
 
 - Infinite Customizability - You can change quite literally every aspect of a chart. Excel only gives you a few basic options
 
@@ -535,7 +535,7 @@ ggplot(dat_ozone, aes(x = DateTime, y = o3))
 ```
 
 
-This looks like an empy plot, too, but what have we actually accomplished here?
+This looks like an empty plot, too, but what have we actually accomplished here?
 
 
 
@@ -568,7 +568,7 @@ However, we don't have any data actually plotted yet! That is because we have no
 
 # Required Layer 3 - Geometries!
 
-The part of a chart that everyone is familir with is the geometry, or the "geom", in ggplot2-speak. This defines the "type" of chart, in the sense of bar charts vs. line charts vs. scatterplots, etc. 
+The part of a chart that everyone is familiar with is the geometry, or the "geom", in ggplot2-speak. This defines the "type" of chart, in the sense of bar charts vs. line charts vs. scatterplots, etc. 
 
 We'll start with a scatterplot, whose associated geometry, or geom, is "geom_point"
 
@@ -580,7 +580,7 @@ ggplot(dat_ozone, aes(x = DateTime, y = o3)) + #Add layers and components to gpg
 
 ---
 
-Let's talk through this output. First to note - we recieved a warning symbol - the message being, "Removed 107 rows containing missing values (geom_point)". Remember in the "working with data" webinar, that R takes missing data *VERY* seriously. 
+Let's talk through this output. First to note - we received a warning symbol - the message being, "Removed 107 rows containing missing values (geom_point)". Remember in the "working with data" webinar, that R takes missing data *VERY* seriously. 
 
 The sort of "catch-all" way to remove NA values from your commands is, "na.rm = TRUE". So, if we pass that to the geom call, we will get the same result, but without the warning.
 
@@ -756,7 +756,7 @@ dat_ozone %>%
 ```
 
 
-Forget, for a moment, that this is an ugly chart, and focus, rather on what we accomplished. We were able to map two different gemoetries onto the same chart! 
+Forget, for a moment, that this is an ugly chart, and focus, rather on what we accomplished. We were able to map two different geometries onto the same chart! 
 
 
 # Another example of multiple geoms
@@ -837,7 +837,7 @@ dat_ozone_long %>%
   labs(title = "Ozone values histogram")
 #?geom_histogram - You can see in the documentation that the stat being done is, "bin". 
 ```
-In this example, we are weven given a a response from the system, saying, "`stat_bin()` using `bins = 30`. Pick better value with `binwidth`". This is because we didn't povide a binwidth for the histogram, so the stat used the default value of 30 bins. 
+In this example, we are given a response from the system, saying, "`stat_bin()` using `bins = 30`. Pick better value with `binwidth`". This is because we didn't provide a binwidth for the histogram, so the stat used the default value of 30 bins. 
 
 We won't dive more into statistics in charts in this webinar. However, you should be aware that it is an important layer of the grammar of graphics, and you will become more familiar with them as you chart more. 
 
@@ -877,7 +877,7 @@ It's because the three facets share the same Y axis. When you facet a chart, you
 
 
 
-In this case, it doesn't make sense, because the pollutants have different concentrations. We can "free" the Y axis, so there is a seperate Y axis for each facet. BUT! We should make sure to draw the reader's attention to the Y - that way, no one can accuse us of deceptive chart practices!
+In this case, it doesn't make sense, because the pollutants have different concentrations. We can "free" the Y axis, so there is a separate Y axis for each facet. BUT! We should make sure to draw the reader's attention to the Y - that way, no one can accuse us of deceptive chart practices!
 
 ```{r, fig.width=10, warning= FALSE}
 dat_ozone_long %>% 
@@ -1222,7 +1222,7 @@ plot_pols(NEI_totals_long, Pollutants)
 
 # Notation for pollutants, scientific, etc. 
 
-In R, you ay want to include scientific notation for your pollutants - such as subscript or superscript symbols for chemical names. There are two examples below - I have added comments to the relevent lines.
+In R, you may want to include scientific notation for your pollutants - such as subscript or superscript symbols for chemical names. There are two examples below - I have added comments to the relevent lines.
 
 ```{r}
 ggplot(NEI_totals_long %>% 
@@ -1235,7 +1235,7 @@ ggplot(NEI_totals_long %>%
             theme_bw() +
             theme(panel.grid.major.x = element_blank(),
             panel.grid.minor.x = element_blank()) +
-            scale_y_continuous(labels=scales::comma) #use comma from the scales package to add a thousans seperator comma
+            scale_y_continuous(labels=scales::comma) #use comma from the scales package to add a thousand separator  comma
 
 gggplot_to_save <- ggplot(NEI_totals_long %>% 
                     filter(Pollutant == "PM10-PRI")) +
@@ -1247,7 +1247,7 @@ gggplot_to_save <- ggplot(NEI_totals_long %>%
             theme_bw()+
             theme(panel.grid.major.x = element_blank(),
             panel.grid.minor.x = element_blank()) +
-            scale_y_continuous(labels=scales::comma) #use comma from the scales package to add a thousans seperator comma
+            scale_y_continuous(labels=scales::comma) #use comma from the scales package to add a thousand separator  comma
 gggplot_to_save
 ```
 
@@ -1282,4 +1282,4 @@ https://www.tidyverse.org/blog/2020/03/ggplot2-3-3-0/ - New updates to tidyverse
 
 ## Principles of Design 
 We discussed the tools of design and charting here, but not the theory of design itself. It is always worth it to read more on this, if you do any visualization for the public.
-https://visme.co/blog/visual-hierarchy/ - visual heirarchy infographic
+https://visme.co/blog/visual-hierarchy/ - visual hierarchy  infographic
