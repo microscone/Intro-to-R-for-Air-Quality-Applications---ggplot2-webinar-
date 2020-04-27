@@ -404,7 +404,7 @@ pivot_longer(7:37, names_to = "Metric", values_to = "Values")
 
 # Why Chart in R?
 
-Who here has been frustrated with making charts or graphs in Excel??
+Who here has been frustrated with making charts or graphs in Excel?? (Poll Question)
 
 Simple charts, with small data, are quick and easy in Excel. But you quickly bump into the limits of what it can do for you. 
 
@@ -597,7 +597,7 @@ ggplot(dat_ozone, aes(x = DateTime, y = o3)) +
 
 ---
 
-
+(Poll Question)
 
 
 So, we have a scatterplot geom that has been mapped onto the exact chart space we had before we called a geometry. Remember, our aes() call supplied the scale, and the geom just maps the data onto the geometric object we specified. But, this scatterplot isn't so great. The first issue is that each day has 24 points, and we're mapping an entire year. That's just too much data to make sense of in this way.
@@ -915,7 +915,6 @@ Calendar_plot <- dat_ozone_long %>%
   theme_bw() +
   labs(title = "Monthly Ozone values in 2017",
        y = "Ozone ppm")
-
 
 Calendar_plot
 
